@@ -13,13 +13,13 @@ import { validateCreateTask, validateUpdateTask, validateTaskQuery } from '../mi
 const router = Router();
 
 router.use(authenticate);
+
 router.post('/', validateCreateTask, createTask);
 router.get('/', validateTaskQuery, getTasks);
 router.get('/:id', getTaskById);
 router.put('/:id', validateUpdateTask, updateTask);
 router.delete('/:id', deleteTask);
+
 router.get('/admin/all', authorize('admin'), validateTaskQuery, getAllTasks);
 
 export default router;
-
-

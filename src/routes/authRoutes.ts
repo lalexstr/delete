@@ -7,6 +7,7 @@ const router = Router();
 
 router.post('/register', validateRegister, register);
 router.post('/login', validateLogin, login);
+
 router.get('/profile', authenticate, getProfile);
 router.put('/profile', authenticate, validateUpdateUser, updateProfile);
 

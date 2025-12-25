@@ -10,6 +10,7 @@ if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma;
 }
 
+// Функция для подключения к базе данных
 export const connectDatabase = async (): Promise<void> => {
   try {
     await prisma.$connect();
@@ -20,6 +21,7 @@ export const connectDatabase = async (): Promise<void> => {
   }
 };
 
+// Функция для отключения от базы данных
 export const disconnectDatabase = async (): Promise<void> => {
   try {
     await prisma.$disconnect();

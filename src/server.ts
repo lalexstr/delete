@@ -2,9 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import swaggerUi from 'swagger-ui-express';
 import { config } from './utils/config';
 import { connectDatabase, disconnectDatabase } from './utils/database';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
+import { swaggerSpec } from './utils/swagger';
 
 const app = express();
 
@@ -48,6 +50,12 @@ import taskRoutes from './routes/taskRoutes';
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/tasks', taskRoutes);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: 'Task Management API',
+}));
+
 app.use(notFoundHandler);
 app.use(errorHandler);
 const startServer = async (): Promise<void> => {
@@ -57,6 +65,7 @@ const startServer = async (): Promise<void> => {
       console.log(`🚀 Сервер запущен на порту ${config.port}`);
       console.log(`🌍 Окружение: ${config.nodeEnv}`);
       console.log(`📝 API доступно по адресу: http://localhost:${config.port}`);
+      console.log(`📚 Swagger документация: http://localhost:${config.port}/api-docs`);
     });
   } catch (error) {
     console.error('❌ Ошибка запуска сервера:', error);
